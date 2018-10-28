@@ -1,0 +1,15 @@
+57193a0042f6a7530d3ffa5e6ffa8871 *DESCRIPTION
+a78e38ccf2e20a6c886f693cfb693e91 *LICENSE
+0babee3cc722e155aa7819cbef5e1451 *NAMESPACE
+b96bf4053eae118c44a0a955505083d8 *R/globals.R
+2e77755a0b2e18fa527b8c6b5a9ebb72 *R/wikisource_book.R
+5bdb6aa37cabb09414cd2838a5e2016b *R/wikisource_page.R
+03f17216c588a11ed61a3d70facfba3b *README.md
+33c4ad56bb53f6b3741375ad8248b75e *build/vignette.rds
+a2bf1b55ed2ae8d70b164b68f412f26c *inst/doc/wikisourcer.R
+3f912d39d5866275094d7fea4ae12d23 *inst/doc/wikisourcer.Rmd
+608ebc36e2447fa806aacbcb9221c1d1 *inst/doc/wikisourcer.html
+6c98881066504f190124a383027b987b *man/figures/logo.png
+2c288b04644a4a3ae2e481096da3d574 *man/wikisource_book.Rd
+a4f0ac5d23abd4e2e0c91471478d1665 *man/wikisource_page.Rd
+3f912d39d5866275094d7fea4ae12d23 *vignettes/wikisourcer.Rmd
