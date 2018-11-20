@@ -90,14 +90,12 @@ sonnets_similarity %>%
   labs(title = "Closest Shakespeare's Sonnets to each others in terms of words used")
 
 
-## ----echo = TRUE, results = 'hide'---------------------------------------
-orwell <- wikisource_book("https://biblio.wiki/wiki/Nineteen_Eighty-Four")
-
 ## ----sentiment_analysis, message=FALSE-----------------------------------
 library(tidyr)
 
-orwell_sent <- orwell %>%
-  filter(page != 25) %>% #remove appendix page
+jane <- wikisource_book("https://en.wikisource.org/wiki/Pride_and_Prejudice")
+
+jane_sent <- jane %>%
   unnest_tokens(word, text) %>%
   inner_join(get_sentiments("bing")) %>%
   anti_join(get_stopwords("en")) %>%
@@ -105,12 +103,11 @@ orwell_sent <- orwell %>%
   spread(key = sentiment, value = n) %>%
   mutate(sentiment = positive - negative)
 
-ggplot(orwell_sent, aes(page, sentiment)) +
+ggplot(jane_sent, aes(page, sentiment)) +
   geom_col() +
   geom_smooth(method = "loess", se = FALSE) +
-  scale_x_continuous(breaks = c(1:24)) +
   theme_minimal() +
-  labs(title = "Sentiment Analysis of Orwell's 1984",
+  labs(title = "Sentiment analysis of “Pride and Prejudice”",
        subtitle = "Positive-negative words difference, by chapter",
        x = "chapter", y = "sentiment score")
 

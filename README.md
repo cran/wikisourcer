@@ -9,14 +9,14 @@ It includes two functions for downloading books and pages by url.
   - `wikisource_book()` to download a book
   - `wikisource_page()` to download a page
 
-## Installation
+### Installation
 
 ``` r
 install.packages("wikisourcer") # install release version from CRAN
 devtools::install_github("lgnbhl/wikisourcer") # install development version from GitHub
 ```
 
-## Minimal examples
+### Minimal examples
 
 Download Voltaire’s philosophical novel *Candide*.
 
@@ -57,4 +57,4 @@ purrr::map2_df(urls, paste0("Sonnet ", 1:154), wikisource_page)
 ```
 
 For more information on how to use **wikisourcer**, please read [the
-vignette](articles/wikisourcer.html).
+vignette](https://lgnbhl.github.io/wikisourcer/articles/wikisourcer.html).

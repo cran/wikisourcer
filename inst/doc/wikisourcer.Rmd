@@ -14,7 +14,7 @@ knitr::opts_chunk$set(fig.width = 6)
 
 The digital library [Wikisource](https://wikisource.org/), a sister projet of *Wikipedia*, hosts books in the public domain in almost all languages. More than 100'000 books are accessible in English, Spanish, French, German, Russian or Chinese.
 
-The **wikisourcer** R package helps you download any book or page from Wikisource. The text is downloaded in a tidy data frame, so it can be analyzed within the [tidyverse](https://www.tidyverse.org/) ecosystem.
+The **wikisourcer** R package helps you download any book or page from Wikisource. The text is downloaded in a tidy data frame, so it can be analyzed within the tidyverse ecosystem as explained for example in the book *[Text mining with R](https://www.tidytextmining.com)*.
 
 ## Download books
 
@@ -139,23 +139,16 @@ sonnets_similarity %>%
 
 ```
 
-## Other wikisources
+## Sentiment analysis
 
-The **wikisourcer** functions work with other wiki websites. 
-
-For example, the website [Bibliowiki](https://biblio.wiki/) hosts texts and images in the public domain under Canadian copyright law. We have therefore access to George Orwell's novel *Nineteen Eighty-Four*.
-
-```{r echo = TRUE, results = 'hide'}
-orwell <- wikisource_book("https://biblio.wiki/wiki/Nineteen_Eighty-Four")
-```
-
-Let's make a sentiment analysis of Orwell's dystopian novel *1984*.
+A [tidy sentiment analysis](https://www.tidytextmining.com/sentiment.html) of a book by chapter can easily be made using the ```wikisource_book``` function, as the chapters are automatically created in the ```page``` variable.
 
 ```{r sentiment_analysis, message=FALSE}
 library(tidyr)
 
-orwell_sent <- orwell %>%
-  filter(page != 25) %>% #remove appendix page
+jane <- wikisource_book("https://en.wikisource.org/wiki/Pride_and_Prejudice")
+
+jane_sent <- jane %>%
   unnest_tokens(word, text) %>%
   inner_join(get_sentiments("bing")) %>%
   anti_join(get_stopwords("en")) %>%
@@ -163,14 +156,11 @@ orwell_sent <- orwell %>%
   spread(key = sentiment, value = n) %>%
   mutate(sentiment = positive - negative)
 
-ggplot(orwell_sent, aes(page, sentiment)) +
+ggplot(jane_sent, aes(page, sentiment)) +
   geom_col() +
   geom_smooth(method = "loess", se = FALSE) +
-  scale_x_continuous(breaks = c(1:24)) +
   theme_minimal() +
-  labs(title = "Sentiment Analysis of Orwell's 1984",
+  labs(title = "Sentiment analysis of “Pride and Prejudice”",
        subtitle = "Positive-negative words difference, by chapter",
        x = "chapter", y = "sentiment score")
 ```
-
-The overall negative sentiment score reflects plainly the dark and pessimistic tone of the novel.
