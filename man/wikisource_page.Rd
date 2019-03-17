@@ -4,13 +4,15 @@
 \alias{wikisource_page}
 \title{Download a page from Wikisource}
 \usage{
-wikisource_page(wikiurl, page = NA)
+wikisource_page(wikiurl, page = NA, cleaned = TRUE)
 }
 \arguments{
 \item{wikiurl}{The url of a Wikisource page that will
 be downloaded.}
 
 \item{page}{A string naming the Wikisource page downloaded.}
+
+\item{cleaned}{A boolean variable for cleaning the Wikisource page.}
 }
 \value{
 A four column tbl_df (a type of data frame; see tibble or
@@ -33,12 +35,12 @@ Download the text of a Wikisource page into a data frame using its url.
 
 \dontrun{
 # download Sonnet 18 of Shakespeare
-wikisource_page("https://en.wikisource.org/wiki/Sonnet_18_(Shakespeare)", page = "Sonnet 18")
+wikisource_page("https://en.wikisource.org/wiki/Shakespeare\%27s_Sonnets/Sonnet_18", "Sonnet 18")
 
 # download Sonnets 116, 73 and 130 of Shakespeare
 library(purrr)
 
-urls <- paste0("https://en.wikisource.org/wiki/Sonnet_", c(116, 73, 130), "_(Shakespeare)")
+urls <- paste0("https://en.wikisource.org/wiki/Shakespeare\%27s_Sonnets/Sonnet_", c(116, 73, 130))
 sonnets <- map2_df(urls, paste0("Sonnet ", c(116, 73, 130)), wikisource_page)
 }
 

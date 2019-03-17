@@ -10,6 +10,8 @@
 #'
 #' @param url A url of a Wikisource content page listing the pages
 #' constituting the book.
+#' 
+#' @param cleaned A boolean variable for cleaning Wikisource pages.
 #'
 #' @return A five column tbl_df (a type of data frame; see tibble or
 #' dplyr packages) with one row for each line of the text or texts,
@@ -38,14 +40,11 @@
 #' library(purrr)
 #'
 #' fr <- "https://fr.wikisource.org/wiki/Candide,_ou_l%E2%80%99Optimisme/Garnier_1877"
-#' de <- "https://es.wikisource.org/wiki/C%C3%A1ndido,_o_el_optimismo"
+#' es <- "https://es.wikisource.org/wiki/C%C3%A1ndido,_o_el_optimismo"
 #' books <- map_df(c(fr, es), wikisource_book)
 #' }
 #'
-#' @importFrom dplyr "%>%"
-#' @importFrom dplyr mutate
-#' @importFrom stringr str_remove
-#' @importFrom stringr str_detect
+#' @importFrom magrittr "%>%"
 #' @importFrom rvest html_node
 #' @importFrom rvest html_nodes
 #' @importFrom rvest html_node
@@ -54,12 +53,12 @@
 #' @importFrom urltools scheme
 #' @importFrom urltools domain
 #' @importFrom purrr keep
-#' @importFrom purrr map2_df
+#' @importFrom purrr pmap_df
 #' @importFrom xml2 read_html
 #'
 #' @export
 
-wikisource_book <- function(url) {
+wikisource_book <- function(url, cleaned = TRUE) {
   # READING URL
   wiki_paths <- url %>%
     xml2::read_html() %>%
@@ -91,23 +90,23 @@ wikisource_book <- function(url) {
   }
 
   # CREATING WIKI_URLS VECTOR
-  url_cleaned <- stringr::str_remove(url, "\\(.*") #error if parenthesis in main url
+  url_cleaned <- gsub(pattern = "\\(.*", replacement = "", x = url) #error if parenthesis in main url
   wiki_urls <- paste0(urltools::scheme(url_cleaned), "://", urltools::domain(url_cleaned), wiki_paths) %>% #create urls
-    purrr::keep(., stringr::str_detect(., (paste0("^", url_cleaned)))) %>% ## IMPORTANT: keep paths beginning like the main url
-    stringr::str_remove(., "\\#.*") %>% #remove string after "#" (is url for text comparison with jpg text)
+    purrr::keep(., grepl(pattern = paste0("^", url_cleaned), .)) %>% ## IMPORTANT: keep paths beginning like the main url
+    gsub(pattern = "\\#.*", replacement = "", x = .) %>% #remove string after "#" (is url for text comparison with jpg text)
     unique(.) #keep unique paths
 
   # BUILDING WIKIBOOK DATAFRAME
   ## download all pages from wiki_urls using the wikisource_page function
-  wikibook <- purrr::map2_df(wiki_urls, 1:length(wiki_urls), wikisource_page)
+  wikibook <- purrr::pmap_df(list(wiki_urls, 1:length(wiki_urls), cleaned), wikisource_page)
 
   # ADD TITLE OF BOOK VARIABLE
   title_book <- url %>%
     xml2::read_html() %>%
     rvest::html_node("#firstHeading") %>%
     rvest::html_text()
-  wikibook <- wikibook %>%
-    dplyr::mutate(title = title_book)
+  
+  wikibook$title <- title_book
 
   # WARNING MESSAGE IF THE DATA FRAME IS EMPTY
   if(nrow(wikibook) == 0){

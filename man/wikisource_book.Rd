@@ -4,11 +4,13 @@
 \alias{wikisource_book}
 \title{Download a book from Wikisource}
 \usage{
-wikisource_book(url)
+wikisource_book(url, cleaned = TRUE)
 }
 \arguments{
 \item{url}{A url of a Wikisource content page listing the pages
 constituting the book.}
+
+\item{cleaned}{A boolean variable for cleaning Wikisource pages.}
 }
 \value{
 A five column tbl_df (a type of data frame; see tibble or
@@ -48,7 +50,7 @@ wikisource_book("https://en.wikisource.org/wiki/Candide")
 library(purrr)
 
 fr <- "https://fr.wikisource.org/wiki/Candide,_ou_l\%E2\%80\%99Optimisme/Garnier_1877"
-de <- "https://es.wikisource.org/wiki/C\%C3\%A1ndido,_o_el_optimismo"
+es <- "https://es.wikisource.org/wiki/C\%C3\%A1ndido,_o_el_optimismo"
 books <- map_df(c(fr, es), wikisource_book)
 }
 

@@ -1,12 +1,12 @@
 ## ----setup, include=FALSE------------------------------------------------
-knitr::opts_chunk$set(fig.width = 6)
+knitr::opts_chunk$set(fig.width = 7, fig.height = 4, fig.align = "center") 
 
-## ------------------------------------------------------------------------
+## ----message=FALSE, warning=FALSE----------------------------------------
 library(wikisourcer)
 
-wikisource_book("https://en.wikisource.org/wiki/Candide")
+wikisource_book(url = "https://en.wikisource.org/wiki/Candide")
 
-## ------------------------------------------------------------------------
+## ----message=FALSE, warning=FALSE----------------------------------------
 library(purrr)
 
 fr <- "https://fr.wikisource.org/wiki/Candide,_ou_l%E2%80%99Optimisme/Garnier_1877"
@@ -17,7 +17,7 @@ urls <- c(fr, en, es, it)
 
 candide <- purrr::map_df(urls, wikisource_book)
 
-## ----message=FALSE-------------------------------------------------------
+## ----message=FALSE, warning=FALSE----------------------------------------
 library(stringr)
 library(dplyr)
 
@@ -26,7 +26,7 @@ candide_cleaned <- candide %>%
   filter(!str_detect(text, "CAPITULO")) %>% #clean Spanish
   filter(!str_detect(text, "../|IncludiIntestazione|Romanzi|^\\d+")) #clean Italian
 
-## ----text_analysis-------------------------------------------------------
+## ----language_analysis, message=FALSE, warning=FALSE---------------------
 library(tidytext)
 library(ggplot2)
 
@@ -40,20 +40,18 @@ candide_cleaned %>%
          title = "Multilingual Text analysis of Voltaire's Candide")
 
 ## ------------------------------------------------------------------------
-library(wikisourcer)
-
-wikisource_page("https://en.wikisource.org/wiki/Sonnet_18_(Shakespeare)", "Sonnet 18")
-
-## ------------------------------------------------------------------------
-wikisource_book("https://en.wikisource.org/wiki/The_Sonnets")
+wikisource_page("https://en.wikisource.org/wiki/Shakespeare's_Sonnets/Sonnet_18", 
+                page = "Sonnet 18") %>%
+  dplyr::filter(!(text %in% c(""," "))) #remove blank rows
 
 ## ------------------------------------------------------------------------
-urls <- paste0("https://en.wikisource.org/wiki/Sonnet_", 1:154, "_(Shakespeare)") #154 urls
+urls <- paste0("https://en.wikisource.org/wiki/Shakespeare's_Sonnets/Sonnet_", 1:154)
 
+## ------------------------------------------------------------------------
 sonnets <- purrr::map2_df(urls, paste0("Sonnet ", 1:154), wikisource_page)
 sonnets
 
-## ----text_similarity, message=FALSE, warning=FALSE-----------------------
+## ----similarity_analysis, message=FALSE, warning=FALSE-------------------
 library(widyr)
 library(SnowballC)
 library(igraph)
@@ -89,8 +87,8 @@ sonnets_similarity %>%
   theme_void() +
   labs(title = "Closest Shakespeare's Sonnets to each others in terms of words used")
 
+## ----sentiment_analysis, message=FALSE, warning=FALSE--------------------
 
-## ----sentiment_analysis, message=FALSE-----------------------------------
 library(tidyr)
 
 jane <- wikisource_book("https://en.wikisource.org/wiki/Pride_and_Prejudice")
