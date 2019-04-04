@@ -75,7 +75,7 @@ The ```wikisource_book``` function sometimes doesn’t work. It happens when the
 The ```wikisource_page``` function has two arguments, i.e. the Wikisource url and an optional title for the page. For example, we can download *Sonnet 18* of William Shakespeare.
 
 ```{r}
-wikisource_page("https://en.wikisource.org/wiki/Shakespeare's_Sonnets/Sonnet_18", 
+wikisource_page("https://en.wikisource.org/wiki/Shakespeare's_Sonnets_(1883)/Sonnet_18", 
                 page = "Sonnet 18") %>%
   dplyr::filter(!(text %in% c(""," "))) #remove blank rows
 ```
@@ -85,7 +85,7 @@ The ```wikisource_book``` function fails to download the 154 Sonnets from the ma
 Let's begin by creating a list of the 154 wikipages we want to download, using the R base function ```paste0```.
 
 ```{r}
-urls <- paste0("https://en.wikisource.org/wiki/Shakespeare's_Sonnets/Sonnet_", 1:154)
+urls <- paste0("https://en.wikisource.org/wiki/Shakespeare's_Sonnets_(1883)/Sonnet_", 1:154)
 ```
 
 Now we can download all the Sonnets with ```purrr```.
@@ -111,7 +111,7 @@ sonnets_similarity <- sonnets %>%
   mutate(wordStem = SnowballC::wordStem(word)) %>% #Stemming
   count(page, wordStem) %>%
   widyr::pairwise_similarity(page, wordStem, n) %>%
-  filter(similarity > 0.3)
+  filter(similarity > 0.25)
 
 # themes by sonnet 
 theme <- data_frame(page = unique(sonnets$page),

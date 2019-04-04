@@ -40,12 +40,12 @@ candide_cleaned %>%
          title = "Multilingual Text analysis of Voltaire's Candide")
 
 ## ------------------------------------------------------------------------
-wikisource_page("https://en.wikisource.org/wiki/Shakespeare's_Sonnets/Sonnet_18", 
+wikisource_page("https://en.wikisource.org/wiki/Shakespeare's_Sonnets_(1883)/Sonnet_18", 
                 page = "Sonnet 18") %>%
   dplyr::filter(!(text %in% c(""," "))) #remove blank rows
 
 ## ------------------------------------------------------------------------
-urls <- paste0("https://en.wikisource.org/wiki/Shakespeare's_Sonnets/Sonnet_", 1:154)
+urls <- paste0("https://en.wikisource.org/wiki/Shakespeare's_Sonnets_(1883)/Sonnet_", 1:154)
 
 ## ------------------------------------------------------------------------
 sonnets <- purrr::map2_df(urls, paste0("Sonnet ", 1:154), wikisource_page)
@@ -65,7 +65,7 @@ sonnets_similarity <- sonnets %>%
   mutate(wordStem = SnowballC::wordStem(word)) %>% #Stemming
   count(page, wordStem) %>%
   widyr::pairwise_similarity(page, wordStem, n) %>%
-  filter(similarity > 0.3)
+  filter(similarity > 0.25)
 
 # themes by sonnet 
 theme <- data_frame(page = unique(sonnets$page),

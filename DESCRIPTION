@@ -1,7 +1,7 @@
 Package: wikisourcer
 Type: Package
 Title: Download Public Domain Works from Wikisource
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: person("Félix", "Luginbuhl", email = "felix.luginbuhl@protonmail.ch", role = c("aut", "cre"))
 Maintainer: Félix Luginbuhl <felix.luginbuhl@protonmail.ch>
 Description: Download public domain works from Wikisource <https://wikisource.org/>, a free library from the Wikimedia Foundation project.
@@ -17,7 +17,7 @@ Suggests: dplyr, stringr, knitr, rmarkdown, ggplot2, tidyr, tidytext,
         widyr, SnowballC, ggraph, igraph
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-03-17 07:53:38 UTC; Felix
+Packaged: 2019-04-04 05:25:49 UTC; Felix
 Author: Félix Luginbuhl [aut, cre]
 Repository: CRAN
-Date/Publication: 2019-03-17 08:20:02 UTC
+Date/Publication: 2019-04-04 05:50:03 UTC
