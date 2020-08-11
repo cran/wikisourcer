@@ -1,14 +1,27 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/wikisourcer)](https://CRAN.R-project.org/package=wikisourcer)
+[![Grand
+total](http://cranlogs.r-pkg.org/badges/grand-total/wikisourcer)](https://cran.r-project.org/package=wikisourcer)
+[![pipeline
+status](https://gitlab.com/lgnbhl/wikisourcer/badges/master/pipeline.svg)](https://gitlab.com/lgnbhl/wikisourcer/pipelines)
+<!-- badges: end -->
+
 # wikisourcer <img src="man/figures/logo.png" align="right" />
 
-The **wikisourcer** R package helps you download public domain works
-from the free library [Wikisource](https://wikisource.org/).
+> Download public domain works from Wikisource
+
+The package `wikisourcer` helps you download public domain works from
+the free library [Wikisource](https://wikisource.org/).
 
 It includes two functions for downloading books and pages by url.
 
   - `wikisource_book()` to download a book.
-  - `wikisource_page()` to download a
-page.
+  - `wikisource_page()` to download a page.
 
 ### Installation
 
@@ -26,11 +39,10 @@ library(wikisourcer)
 wikisource_book(url = "https://en.wikisource.org/wiki/Candide")
 ```
 
-Download Chapter 1 of
-*Candide*.
+Download Chapter 1 of *Candide*.
 
 ``` r
-wikisource_page(wikiurl = "https://en.wikisource.org/wiki/Candide/Chapter_1", 
+wikisource_page("https://en.wikisource.org/wiki/Candide/Chapter_1", 
                 page = "Chapter 1")
 ```
 
@@ -47,4 +59,4 @@ purrr::map_df(c(fr, es, it), wikisource_book)
 ```
 
 For more information on how to use **wikisourcer**, please read [the
-vignette](https://lgnbhl.github.io/wikisourcer/articles/wikisourcer.html).
+vignette](https://felixluginbuhl.com/wikisourcer/articles/wikisourcer.html).
